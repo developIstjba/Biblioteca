@@ -1,0 +1,97 @@
+{% extends 'layouts/home.html' %}
+{% import 'layouts/forms.html' as forms %}
+
+{% block title %}Permisos{% endblock %}
+
+{% block content %} 
+<div class="mrg-lrg">
+    <div class=" row mrg-bottom-mdl align-items-center">
+        <div class="col-10">
+            <spam class="article-title">
+                <i class="icon icon-badge icon-sm-lrg"></i>Permisos
+            </spam>            
+        </div>
+        <div class="col-2">
+            <div class="btn-group-option justify-content-end">
+                <a href="/administracion/permisoAdd" class="btn-primary" title="Agregar">
+                    <i class="icon icon-add"></i>Agregar
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="">
+        <div class="card-simple col-12">
+            <div class="card-body">
+                <table id="tablePermisos" class="dttable-default display" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Rol</th>
+                            <th>Menú</th>
+                            <th>Descripción</th>
+                            <th>Privilegios</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for permiso in permisos %}                   
+                        <tr>                            
+                            <td>{{ permiso.getNombreRol }}</td>
+                            <td>{{ permiso.getNombreMenu }}</td>
+                            <td>{{ permiso.getDescripcion }}</td>
+                            <td>{{ permiso.getNombrePrivilegio }}</td>                      
+                            <td>
+                                <div class="btn-group-option">
+                                    {{ forms.csrf(token) }}
+                                    <a href="" class="btn-option btn-warning btn-update-permiso" title="Editar" data-btn-rol="edit" data-input-value="{{ permiso.getId }}"><i class="icon icon-sm-xsm icon-create"></i></a>
+                                    <a href="" class="btn-option btn-danger btn-delete-permiso" title="Eliminar" data-btn-rol="delete" data-input-value="{{ permiso.getId }}"><i class="icon icon-sm-xsm icon-delete"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}                          
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Rol</th>
+                            <th>Menú</th>
+                            <th>Descripción</th>
+                            <th>Privilegios</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </tfoot>
+                </table>                
+            </div>
+        </div>
+
+    </div>
+</div> 
+    
+    <script>
+        
+        var tablaPermisos = dataTables('tablePermisos');
+
+        $('.btn-update-permiso').on('click', function(e){
+           e.preventDefault();
+            var data = {
+                id: $(this).data('input-value'),
+                token: $('#token').val()
+            };
+            
+            ajx.select(data,"/administracion/selectPermiso");
+        });    
+
+        $('.btn-delete-permiso').on('click', function(e){
+            e.preventDefault();
+            var data = {
+                id: $(this).data('input-value'),
+                token: $('#token').val()
+            };
+            
+            ajx.delete(data,"/administracion/deletePermiso", tablaPermisos, $(this));
+   
+        });      
+
+        
+    </script>
+
+
+{% endblock %}

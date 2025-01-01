@@ -1,0 +1,20 @@
+# Inhabilitar visualización de directorios y archivos php
+<FilesMatch "\.php$">
+       Order Allow,Deny
+       Deny from all
+</FilesMatch>
+
+<FilesMatch "index[0-9]?\.php$">
+       Order Allow,Deny
+       Allow from all
+</FilesMatch>
+
+# Reescribir URL y enviar resultado a index.php?url
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-d 
+RewriteCond %{REQUEST_FILENAME} !-f 
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+
+# Redireccionar Errores
+ErrorDocument 400 /error/e400
+ErrorDocument 403 /error/e403

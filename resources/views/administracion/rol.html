@@ -1,0 +1,135 @@
+{% extends 'layouts/home.html' %}
+{% import 'layouts/forms.html' as forms %}
+
+{% block title %}Roles{% endblock %}
+
+{% block content %} 
+<div class="mrg-lrg">
+    <div class="row mrg-bottom-mdl align-items-center">
+        <div class="col col-10">
+            <spam class="article-title">
+                <i class="icon icon-group icon-sm-lrg"></i>Roles
+            </spam>            
+        </div>
+        <div class="col-2">
+            <div class="btn-group-option justify-content-end">
+                <a href="/administracion/rolAdd" class="btn-primary" title="Agregar">
+                    <i class="icon icon-add"></i>Agregar
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="">
+        <div class="card-simple col-12">
+            <div class="card-body">
+                <table id="tableAutores" class="dttable-default display" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Estado</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rol in roles %}                   
+                        <tr>                            
+                            <td>{{ rol.getMnemonico }}</td>
+                            <td>{{ rol.getNombre }}</td>
+                            <td>{{ rol.getDescripcion }}</td>
+                            <td>
+                                {% if rol.getEstado == 1 %}
+                                <span class="tag">{{ rol.getNombreEstado }}</span>
+                                {% elseif rol.getEstado == 2 %}
+                                <span class="tag">{{ rol.getNombreEstado }}</span>                                
+                                {% endif %}
+                            </td>                            
+                            <td>
+                                <div class="btn-group-option">
+                                    {{ forms.csrf(token) }}
+                                    {% if rol.getEstado == 1 %}
+                                    <a href="" class="btn-option btn-info btn-disable-rol" title="Bloquear"  data-btn-rol="disable" data-input-value="{{ rol.getId }}"><i class="icon icon-sm-xsm icon-block"></i></a>
+                                    <a href="" class="btn-option btn-secondary btn-enable-rol hidden" title="Activar" data-btn-rol="enable" data-input-value="{{ rol.getId }}"><i class="icon icon-sm-xsm icon-check"></i></a>
+                                    {% elseif rol.getEstado == 2 %}
+                                    <a href="" class="btn-option btn-info btn-disable-rol hidden" title="Bloquear" data-btn-rol="disable" data-input-value="{{ rol.getId }}"><i class="icon icon-sm-xsm icon-block"></i></a>
+                                    <a href="" class="btn-option btn-secondary btn-enable-rol" title="Activar" data-btn-rol="enable" data-input-value="{{ rol.getId }}"><i class="icon icon-sm-xsm icon-check"></i></a>                          
+                                    {% endif %} 
+                                    <a href="" class="btn-option btn-warning btn-update-rol" title="Editar" data-btn-rol="edit" data-input-value="{{ rol.getId }}"><i class="icon icon-sm-xsm icon-create"></i></a>
+                                    <a href="" class="btn-option btn-danger btn-delete-rol" title="Eliminar" data-btn-rol="delete" data-input-value="{{ rol.getId }}"><i class="icon icon-sm-xsm icon-delete"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}                          
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Estado</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </tfoot>
+                </table>                
+            </div>
+        </div>
+
+    </div>
+</div> 
+    
+    <script>
+        
+        var tablaRoles = dataTables('tableAutores');
+
+        $('.btn-update-rol').on('click', function(e){
+           e.preventDefault();
+            var data = {
+                id: $(this).data('input-value'),
+                token: $('#token').val()
+            };
+            
+            ajx.select(data,"/administracion/selectRol");
+        });    
+
+        $('.btn-delete-rol').on('click', function(e){
+            e.preventDefault();
+            var data = {
+                id: $(this).data('input-value'),
+                token: $('#token').val()
+            };
+            
+            ajx.delete(data,"/administracion/deleteRol", tablaRoles, $(this));
+   
+        });      
+ 
+    
+        $('.btn-disable-rol').on('click', function(e){
+            e.preventDefault();
+            var data = {
+                id: $(this).data('input-value'),
+                token: $('#token').val()
+            };
+            
+            ajx.change(data,"/administracion/disableRol", $(this), 'rol');
+   
+        });       
+
+        
+        $('.btn-enable-rol').on('click', function(e){
+            e.preventDefault();
+            var data = {
+                id: $(this).data('input-value'),
+                token: $('#token').val()
+            };
+            
+            ajx.change(data,"/administracion/enableRol", $(this), 'rol');
+   
+        }); 
+    
+    
+    
+    </script>
+
+
+{% endblock %}

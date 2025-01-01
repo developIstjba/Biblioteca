@@ -1,0 +1,102 @@
+{% extends 'layouts/home.html' %}
+{% import 'layouts/forms.html' as forms %}
+
+{% block title %}Agregar Permiso{% endblock %}
+
+{% block content %} 
+<div class="mrg-lrg">
+    <div class="row mrg-bottom-mdl align-items-center">
+        <div class="col-10">
+            <spam class="article-title">
+                <i class="icon icon-badge icon-sm-lrg"></i>Agregar Permiso
+            </spam>            
+        </div>
+        <div class=" col-2">
+            <div class="btn-group-option justify-content-end">
+                <a href="/administracion/permiso" class="btn-secondary" title="Retornar a Editoriales">
+                    <i class="icon icon-arrow_back"></i>Retornar
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="">
+        <div class="card col-6">
+            <div class="card-header">Datos del Permiso</div>
+            <div class="card-body">
+                {{ forms.form('formSavePermiso','/administracion/savePermiso') }}
+                {{ forms.csrf(token) }}
+             
+                <div class="frm-group flexbox">
+                    <div class="col-12">
+                        {{ forms.label('idRol','Rol') }}
+                        <span class="txt-red">(*)</span>
+                        <div>
+                            <select class="select" name="idRol" id="idRol">
+                                <option value="0">Seleccione el rol...</option>
+                            {% for rol in roles %}    
+                                <option value="{{ rol.getId|e }}">{{ rol.getNombre|e }}</option>
+                            {% endfor %}
+                            </select>
+                        </div>
+                        
+                    </div>                  
+                </div> 
+                <div class="frm-group flexbox">
+                    <div class="col-12">
+                        {{ forms.label('idMenu','Menú') }}
+                        <span class="txt-red">(*)</span>
+                        <div>
+                            <select class="select" name="idMenu" id="idMenu">
+                                <option value="0">Seleccione el menú...</option>
+                            {% for menu in menus %}    
+                                <option value="{{ menu.getId|e }}">{{ menu.getNombre|e }}</option>
+                            {% endfor %}
+                            </select>
+                        </div>
+                    </div>                    
+                </div>                  
+                <div class="frm-group flexbox">
+                    <div class="col-12">
+                        {{ forms.label('descripcion','Descripción') }}
+                        <span class="txt-red">(*)</span>
+                        {{ forms.textarea('textbox','descripcion','Descripción') }}
+                    </div>
+                </div>
+                <div class="frm-group flexbox">
+                    <div class="col-12">
+                        {{ forms.label('privilegio','Privilegio') }}
+                        <span class="txt-red">(*)</span>
+                        <div>
+                            <select class="select" name="privilegio" id="privilegio">
+                                <option value="0">Seleccione el nivel de privilegio...</option>
+                            {% for privilegio in privilegios %}    
+                                <option value="{{ privilegio.getId|e }}">{{ privilegio.getNombre|e }}</option>
+                            {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>               
+                <div class="frm-group">
+                    {{ forms.submit('btn-primary','guardarPermiso','Guardar') }}
+                </div>
+                {{ forms.endform() }}   
+            </div>
+        </div>
+
+    </div>
+</div>    
+    
+    <script>
+
+        $("#guardarPermiso").on("click", function(e){
+            e.preventDefault();          
+            var data = form.data($("#formSavePermiso"));
+            ajx.update(data,"/administracion/savePermiso", $("#formSavePermiso"));
+            
+        });
+               
+        $('.select').select2();
+    </script>
+
+
+{% endblock %}

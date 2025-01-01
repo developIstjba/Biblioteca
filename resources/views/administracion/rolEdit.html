@@ -1,0 +1,73 @@
+{% extends 'layouts/home.html' %}
+{% import 'layouts/forms.html' as forms %}
+
+{% block title %}Editar Rol{% endblock %}
+
+{% block content %} 
+<div class="mrg-lrg">
+    <div class="row mrg-bottom-mdl align-items-center">
+        <div class=" col-10">
+            <spam class="article-title">
+                <i class="icon icon-create icon-sm-lrg"></i>Editar Rol
+            </spam>            
+        </div>
+        <div class=" col-2">
+            <div class="btn-group-option justify-content-end">
+                <a href="/administracion/rol" class="btn-secondary" title="Retornar a Editoriales">
+                    <i class="icon icon-arrow_back"></i>Retornar
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="">
+        <div class="card col-6">
+            <div class="card-header">Datos del Rol</div>
+            <div class="card-body">
+                {{ forms.form('formUpdateRol','/administracion/updateRol') }}
+                {{ forms.csrf(token) }}
+             
+                <div class="frm-group flexbox">
+                    <div class="col-12">
+                        {{ forms.label('mnemonico','Código') }}
+                        <span class="txt-red">(*)</span>
+                        {{ forms.input('textbox','mnemonico','Código', rol.getMnemonico, '4') }}
+                    </div>                     
+                </div>
+                <div class="frm-group flexbox">
+                    <div class="col-12">
+                        {{ forms.label('nombre','Nombre') }}
+                        <span class="txt-red">(*)</span>
+                        {{ forms.input('textbox','nombre','Nombre', rol.getNombre, '100') }}
+                    </div>                    
+                </div>                  
+                <div class="frm-group flexbox">
+                    <div class="col-12">
+                        {{ forms.label('descripcion','Descripción') }}
+                        <span class="txt-red">(*)</span>
+                        {{ forms.textarea('textbox','descripcion','Descripción', rol.getDescripcion) }}
+                    </div>
+                </div>
+               
+                <div class="frm-group">
+                    {{ forms.submit('btn-primary','editarRol','Guardar') }}
+                </div>
+                {{ forms.endform() }}   
+            </div>
+        </div>
+
+    </div>
+</div>    
+    
+    <script>
+
+        $("#editarRol").on("click", function(e){
+            e.preventDefault();            
+            var data = form.data($("#formUpdateRol"));
+            ajx.update(data,"/administracion/updateRol",null);
+            
+        });
+               
+    </script>
+
+
+{% endblock %}
