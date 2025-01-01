@@ -1,0 +1,268 @@
+/*
+Sisevi
+Version 1.1
+Created by @jonthcevallos
+*/
+
+@import 'color-palette.less';
+
+/*
+* txt-align
+* txt-sizes
+* txt-colors
+* txt-dark
+* bgrcolor
+* link-create
+* icon-sizes
+* mrg-align 
+* rotate
+* 
+*/
+
+@align: left, right, center, justify;
+@sizes: xlg, lrg, mdl, sml, xsm;
+@colors: @turquoise, @gray, @blue, @red, @orange, @white, @dark;
+@operation: primary, secondary, info, danger, warning, light, dark;
+@names: turquoise, gray, blue, red, orange, white, dark;
+@position: left, right, top, bottom;
+
+
+// text bold
+.txt-bold{
+    font-weight: bolder;
+}
+
+
+// text align
+.txt-align(@align; @i: 1) when (@i =< length(@align)) {
+    
+    @alg: extract(@align, @i);
+    
+    .txt-@{alg}{
+        text-align: @alg;
+    }
+    
+    .txt-align(@align; (@i + 1));
+}
+.txt-align(@align);
+
+
+// text sizes
+.txt-sizes(@sizes; @tam; @i: 1) when (@i =< length(@sizes)) {
+    
+    @size: extract(@sizes, @i);
+    
+    .txt-sm-@{size}{
+        font-size: @tam - (@i*0.1rem);
+    }
+    
+    .txt-lg-@{size}{
+        font-size: @tam + (5 - @i);
+    }   
+    
+    .txt-sizes(@sizes; @tam; (@i + 1));
+}
+.txt-sizes(@sizes; 1rem);
+
+
+// text color
+.txt-colors(@colors; @names; @i: 1) when (@i =< length(@colors)) {
+    
+    @color: extract(@colors, @i);
+    @name: extract(@names, @i);
+    
+    .txt-@{name}{
+        color: @color;
+    }
+    
+    .txt-colors(@colors; @names; (@i + 1));
+}
+.txt-colors(@colors; @names);
+
+
+// text gray
+.txt-dark(@colors; @names; @i: 1) when (@i =< 7) {
+    
+    @color: extract(@colors, 7);
+    @name: extract(@names, 7);
+    
+    .txt-@{name}-@{i}{
+        color: lighten(@color, (10% * @i));
+    }
+ 
+    .txt-dark(@colors; @names; (@i + 1));
+}
+.txt-dark(@colors; @names);
+
+
+// background color
+.bgr-colors(@colors; @names; @i: 1) when (@i =< length(@colors)) {
+    
+    @color: extract(@colors, @i);
+    @name: extract(@names, @i);
+    
+    .bgr-@{name}{
+        background-color: @color !important;
+    }
+   
+    .bgr-colors(@colors; @names; (@i + 1));
+}
+.bgr-colors(@colors; @names);
+
+
+// link
+.link-create(@colors; @operation; @i: 1) when (@i =< length(@colors)) {
+    
+    @color: extract(@colors, @i);
+    @name: extract(@operation, @i);
+    
+    .link-@{name}{
+        text-decoration: none;
+        font-size: 0.9rem;
+        color: @color;
+        
+        &:hover{
+            text-decoration: underline;
+        }
+    }
+   
+    .link-create(@colors; @operation; (@i + 1));
+}
+.link-create(@colors; @operation);
+
+
+// icon size
+.icon-sizes(@sizes; @tam; @i: 1) when (@i =< length(@sizes)) {
+    
+    @size: extract(@sizes, @i);
+    
+    .icon-lg-@{size}{
+        font-size: @tam - (@i*1rem);
+    }
+    
+    .icon-sm-@{size}{
+        font-size: 1.90rem - (@i*0.15rem);
+    } 
+    
+    .icon-sizes(@sizes; @tam; (@i + 1));
+}
+.icon-sizes(@sizes; 6rem);
+
+
+// margin align
+.mrg-align(@position; @tam; @i: 1) when (@i =< length(@position)) {
+    
+    @pos: extract(@position, @i);
+    
+    // margin all left right top bottom
+    .mrg-@{pos}{
+        margin-@{pos}: auto !important;
+    }
+    
+    // clear margin position
+    .mrg-clr-@{pos}{
+        margin-@{pos}: 0 !important;
+    }   
+    
+    .mrg-align(@position; @tam;(@i + 1));
+    
+}
+.mrg-align(@position, 0.5rem);
+
+
+// margin sizes
+.mrg-sizes(@sizes; @tam; @i: 1) when (@i =< length(@sizes)) {
+    
+    @size: extract(@sizes, @i);
+    @temp: (length(@sizes)+1);
+    
+    .mrg-@{size}{
+        margin-left: @tam * (@temp - @i);
+        margin-right: @tam * (@temp - @i);
+        margin-top: @tam * (@temp - @i);
+        margin-bottom:@tam * (@temp - @i);
+    }
+
+    .p-@{size}{
+        padding-left: @tam * (@temp - @i);
+        padding-right: @tam * (@temp - @i);
+        padding-top: @tam * (@temp - @i);
+        padding-bottom:@tam * (@temp - @i);
+    }
+    
+    .mrg-valig-@{size}{
+        margin-left: @tam * (@temp - @i);
+        margin-right:@tam * (@temp - @i);
+    }
+
+    .p-valig-@{size}{
+        padding-left: @tam * (@temp - @i);
+        padding-right: @tam * (@temp - @i);
+    }
+    
+    .mrg-alig-@{size}{
+        margin-top: @tam * (@temp - @i);
+        margin-bottom: @tam * (@temp - @i);
+    }
+
+    .p-alig-@{size}{
+        padding-top: @tam * (@temp - @i);
+        padding-bottom: @tam * (@temp - @i);
+    }
+    
+    .mrg-left-@{size}{
+        margin-left: @tam * (@temp - @i);
+    }
+    
+    .mrg-right-@{size}{
+        margin-right: @tam * (@temp - @i);
+    }
+ 
+    .mrg-top-@{size}{
+        margin-top: @tam * (@temp - @i);
+    }
+
+    .mrg-bottom-@{size}{
+        margin-bottom: @tam * (@temp - @i);
+    }
+
+    .p-left-@{size}{
+        padding-left: @tam * (@temp - @i);
+    }
+    
+    .p-right-@{size}{
+        padding-right: @tam * (@temp - @i);
+    }
+ 
+    .p-top-@{size}{
+        padding-top: @tam * (@temp - @i);
+    }
+
+    .p-bottom-@{size}{
+        padding-bottom: @tam * (@temp - @i);
+    }
+
+    
+    .mrg-sizes(@sizes; @tam;(@i + 1));
+    
+}
+.mrg-sizes(@sizes, 0.5rem);
+
+
+// Rotate
+@deg: 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360;
+.rotate(@deg; @i: 1) when (@i =< length(@deg)) {
+    
+    @d: extract(@deg, @i);
+    
+    .rotate-@{d}{
+        -moz-transform: rotate(@d+0deg);
+        -webkit-transform: rotate(@d+0deg);
+        -o-transform: rotate(@d+0deg);
+        -ms-transform: rotate(@d+0deg);
+        transform: rotate(@d+0deg);        
+    }
+    
+    .rotate(@deg; (@i + 1));
+}
+.rotate(@deg);

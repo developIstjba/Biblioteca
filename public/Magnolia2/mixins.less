@@ -1,0 +1,82 @@
+/*
+Sisevi
+Version 1.1
+Created by @jonthcevallos
+*/
+
+/*
+* textShadow
+* borderRadius
+* borderSolid
+* borderSolidX
+* transition
+* gradient
+*
+*/
+
+
+// text shadow
+.textShadow(@x; @y; @radius){
+    -webkit-text-shadow: @x @y @radius darken(#e7e7e7, 30%);
+    -moz-text-shadow: @x @y @radius darken(#e7e7e7, 30%);
+    text-shadow: @x @y @radius darken(#e7e7e7, 30%);
+}
+
+
+// border radius
+.borderRadius(@size){
+    -moz-border-radius: @size;
+    -webkit-border-radius: @size;
+    border-radius: @size;
+}
+
+.borderRadiusTop(@size){
+    -moz-border-top-left-radius: @size;
+    -webkit-border-top-left-radius: @size;
+    -moz-border-top-right-radius: @size;
+    -webkit-border-top-right-radius: @size;    
+    border-top-left-radius: @size;
+    border-top-right-radius: @size;
+}
+
+
+.borderRadiusBottom(@size){
+    -moz-border-bottom-left-radius: @size;
+    -webkit-border-bottom-left-radius: @size;
+    -moz-border-bottom-right-radius: @size;
+    -webkit-border-bottom-right-radius: @size;    
+    border-bottom-left-radius: @size;
+    border-bottom-right-radius: @size;
+}
+
+// border solid 
+.borderSolid(@size; @color){
+    border: @size solid darken(@color, 10%);
+}
+
+
+// border solid position
+.borderSolidX(@x; @size; @color){
+    border-@{x}: @size solid darken(@color, 10%);
+}
+
+
+// transition
+.transition(@time){
+    -webkit-transition: all @time ease 0.3s;
+    -moz-transition: all @time ease 0.3s;
+    transition: all @time ease 0.3s;	
+}
+
+
+// gradient
+.gradient(@x;@y){
+    background: @x;
+    background: -moz-linear-gradient(180deg, @x 0%, @y 50%, @x 100%);
+    background: -webkit-linear-gradient(180deg, @x 0%, @y 50%, @x 100%);
+    background: linear-gradient(180deg, @x 0%, @y 50%, @x 100%);    
+}
+
+
+
+
